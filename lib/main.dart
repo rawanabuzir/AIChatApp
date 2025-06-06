@@ -2,9 +2,14 @@ import 'package:chatapp/bloc/chat/chat_bloc.dart';
 import 'package:chatapp/presentation/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'l10n/app_localizations.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Gemini.init(apiKey: 'AIzaSyCYZJ1dg4x7JOCkIxQBPqDA4euaUCjEgsw');
+
   runApp(const MyApp());
 }
 

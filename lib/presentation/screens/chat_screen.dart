@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 import 'package:chatapp/presentation/widgets/appbar/appbar_custom.dart';
 import 'package:chatapp/presentation/widgets/background.dart';
@@ -10,17 +11,24 @@ import 'package:chatapp/bloc/chat/chat_bloc.dart';
 import 'package:chatapp/bloc/chat/chat_event.dart';
 import 'package:chatapp/bloc/chat/chat_state.dart';
 
-class ChatScreenView extends StatelessWidget {
-  ChatScreenView({super.key});
+class ChatScreenView extends StatefulWidget {
+  const ChatScreenView({super.key});
 
+  @override
+  State<ChatScreenView> createState() => _ChatScreenViewState();
+}
+
+class _ChatScreenViewState extends State<ChatScreenView> {
   final TextEditingController _controller = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ChatBloc>().add(LoadMessagesEvent());
-    });
+  void initState() {
+    super.initState();
+    context.read<ChatBloc>().add(LoadMessagesEvent());
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(210, 165, 122, 122),
       extendBodyBehindAppBar: true,
@@ -48,18 +56,44 @@ class ChatScreenView extends StatelessWidget {
                           horizontal: 12,
                           vertical: 16,
                         ),
-                        itemCount: messages.length,
+                        itemCount: messages.length + (state.isTyping ? 1 : 0),
                         itemBuilder: (context, index) {
-                          final msg = messages[messages.length - 1 - index];
+                          if (state.isTyping && index == 0) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 8.0,
+                              ),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: SizedBox(
+                                  width: 100,
+                                  height: 40,
+                                  child: Lottie.asset(
+                                    'assets/animation/typing.json',
+                                    repeat: true,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+
+                          final msg =
+                              messages[messages.length -
+                                  1 -
+                                  (index - (state.isTyping ? 1 : 0))];
+
                           bool showTime = true;
-                          if (index > 0) {
-                            final nextMsg = messages[messages.length - index];
+                          if (index > (state.isTyping ? 1 : 0)) {
+                            final nextMsg =
+                                messages[messages.length -
+                                    (index - (state.isTyping ? 1 : 0))];
                             final sameSender = msg.isUser == nextMsg.isUser;
                             final sameMinute =
                                 msg.time.difference(nextMsg.time).inMinutes ==
                                 0;
                             if (sameSender && sameMinute) showTime = false;
                           }
+
                           return MessageBubble(
                             message: msg,
                             showTime: showTime,
@@ -72,7 +106,7 @@ class ChatScreenView extends StatelessWidget {
                 ),
               ),
               Container(
-                color: Colors.white.withValues(alpha: 0.9),
+                color: Colors.white.withOpacity(0.9),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 8,
                   vertical: 10,
