@@ -1,0 +1,25 @@
+{
+  "@@locale": "ar",
+  "user_info_title": "معلومات جهة الاتصال",
+  "appbar_more": "المزيد",
+  "about_title": "حول",
+  "about_subtitle": "استخدم واتساب للتواصل معي 📱",
+  "phone_number_title": "رقم الهاتف",
+  "media_title": "الوسائط، الروابط، والمستندات",
+  "media_count": "15",
+  "common_groups_title": "المجموعات المشتركة",
+  "programming_group": "مجموعة برمجة",
+  "graduation_project_group": "مشروع التخرج",
+  "send_message_action": "إرسال رسالة",
+  "make_call_action": "إجراء مكالمة",
+  "share_contact_action": "مشاركة جهة الاتصال",
+  "delete_chat_action": "مسح المحادثة",
+  "confirm_title": "تأكيد",
+  "confirm_message": "هل أنت متأكد من مسح المحادثة؟",
+  "cancel_button": "إلغاء",
+  "yes_button": "نعم",
+  "chat_deleted_snackbar": "تم مسح المحادثة",
+  "chat_hint": "اكتب رسالة...",
+  "send_icon_semantics": "إرسال"
+}
+
